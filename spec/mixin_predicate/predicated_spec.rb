@@ -2,25 +2,32 @@
 
 module MixinPredicate
   RSpec.describe Predicate do
-    subject(:foo) do
+    subject(:instance) do
       Class.new do
-        include MixinPredicate::Predicate
+        include MixinPredicate::Predicate::Bar
 
-        foo
-      end
+        def name
+          "Anonymous Class Predicate"
+        end
+      end.new
     end
 
     describe "#mixin_predicate" do
       context "when all is good" do
-        let(:input) { "foo" }
-        let(:result) { "foo" }
-
         it do
-          expect(foo).to respond_to(:foo)
+          expect(instance).to respond_to(:foo)
         end
 
         it do
-          expect(foo.new).to respond_to(:bar)
+          expect(instance.foo).to eql("foo")
+        end
+
+        it do
+          expect(instance).to respond_to(:bar)
+        end
+
+        it do
+          expect(instance.bar).to eql("bar")
         end
       end
     end

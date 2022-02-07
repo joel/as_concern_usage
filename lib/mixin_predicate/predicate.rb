@@ -4,18 +4,20 @@ require "active_support/concern"
 
 module MixinPredicate
   module Predicate
-    extend ActiveSupport::Concern
+    module Foo
+      extend ActiveSupport::Concern
 
-    class_methods do
       def foo
-        mod = MixinPredicate::Predicate::Foo
-        include mod
+        __method__.to_s
       end
     end
 
-    module Foo
+    module Bar
+      extend ActiveSupport::Concern
+      include Foo
+
       def bar
-        puts("foo::bar")
+        __method__.to_s
       end
     end
   end
